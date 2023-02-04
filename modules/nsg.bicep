@@ -42,16 +42,54 @@ resource nsgbackend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
   properties: {
     securityRules: [
       {
-        name: 'default-allow-22'
+        name: 'AllowFrontendInbound'
+        properties: {
+          priority: 100
+          access: 'Allow'
+          direction: 'Inbound'
+          destinationPortRange: '*'
+          protocol: '*'
+          sourcePortRange: '*'
+          sourceAddressPrefix: '10.0.1.0/24'
+          destinationAddressPrefix: '*'
+          sourcePortRanges: []
+          destinationPortRanges: []
+          sourceAddressPrefixes: []
+          destinationAddressPrefixes: []
+        }
+      }
+      {
+        name: 'AllowAzureLoadBalancerInBound'
         properties: {
           priority: 110
           access: 'Allow'
           direction: 'Inbound'
-          destinationPortRange: '22'
-          protocol: 'Tcp'
+          destinationPortRange: '*'
+          protocol: '*'
+          sourcePortRange: '*'
+          sourceAddressPrefix: 'AzureLoadBalancer'
+          destinationAddressPrefix: '*'
+          sourcePortRanges: []
+          destinationPortRanges: []
+          sourceAddressPrefixes: []
+          destinationAddressPrefixes: []
+        }
+      }
+      {
+        name: 'DenyAllInBound'
+        properties: {
+          priority: 1000
+          access: 'Deny'
+          direction: 'Inbound'
+          destinationPortRange: '*'
+          protocol: '*'
           sourcePortRange: '*'
           sourceAddressPrefix: '*'
           destinationAddressPrefix: '*'
+          sourcePortRanges: []
+          destinationPortRanges: []
+          sourceAddressPrefixes: []
+          destinationAddressPrefixes: []
         }
       }
     ]

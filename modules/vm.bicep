@@ -80,7 +80,7 @@ var nicName = 'nic-${systemCode}'
 @description('Id of subnet.')
 param snetId string
 
-// deploy public ipaddress
+// deploy public ip address.
 resource pip 'Microsoft.Network/publicIPAddresses@2022-07-01' = {
   name: publicIpName
   location: location
@@ -95,7 +95,7 @@ resource pip 'Microsoft.Network/publicIPAddresses@2022-07-01' = {
   }
 }
 
-// deploy network interface
+// deploy network interface.
 resource nic 'Microsoft.Network/networkInterfaces@2022-07-01' = {
   name: nicName
   location: location
@@ -117,7 +117,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2022-07-01' = {
   }
 }
 
-// deploy virtual machine
+// deploy virtual machine.
 resource vm 'Microsoft.Compute/virtualMachines@2022-11-01' = {
   name: vmName
   location: location

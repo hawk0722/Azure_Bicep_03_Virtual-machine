@@ -27,13 +27,13 @@ param snetFrontendPrefix string = '10.0.1.0/24'
 param snetBackendName string = 'snet-${backend}'
 param snetBackendPrefix string = '10.0.2.0/24'
 
-// deploy resource groups
+// deploy resource groups.
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourceGroupName
   location: location
 }
 
-// deploy vnet
+// deploy virtual network.
 module vnetModule 'modules/vnet.bicep' = {
   scope: rg
   name: 'Deploy_virtual_network'
@@ -50,7 +50,7 @@ module vnetModule 'modules/vnet.bicep' = {
   }
 }
 
-// deploy network security group
+// deploy network security group.
 module nsgModule 'modules/nsg.bicep' = {
   scope: rg
   name: 'Deploy_network_security_group'
@@ -62,7 +62,7 @@ module nsgModule 'modules/nsg.bicep' = {
   }
 }
 
-// deploy virtual machine
+// deploy virtual machine.
 module vmModule 'modules/vm.bicep' = {
   scope: rg
   name: 'Deploy_virtual_machine'
