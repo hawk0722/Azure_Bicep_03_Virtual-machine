@@ -1,11 +1,14 @@
-@description('System code')
-param systemCode string
-
 @description('Location for all resources.')
 param location string
 
+@description('System code')
+param systemCode string
+
+@description('Environment')
+param env string
+
 @description('VNet name')
-param vnetName string = 'vnet-${systemCode}'
+param vnetName string = 'vnet-${systemCode}-${env}'
 
 @description('Virtual network address prefix')
 param vnetAddressPrefix string

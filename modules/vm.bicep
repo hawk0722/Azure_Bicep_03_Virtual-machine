@@ -1,8 +1,11 @@
+@description('Location for all resources.')
+param location string
+
 @description('System code')
 param systemCode string
 
-@description('Location for all resources.')
-param location string
+@description('Environment')
+param env string
 
 @description('Username for the Virtual Machine.')
 param adminUsername string
@@ -16,7 +19,7 @@ param adminPassword string
 param dnsLabelPrefix string = toLower('${vmName}-${uniqueString(resourceGroup().id, vmName)}')
 
 @description('Name for the Public IP used to access the Virtual Machine.')
-param publicIpName string = 'pip-${systemCode}'
+param publicIpName string = 'pip-${systemCode}-${env}'
 
 @description('Allocation method for the Public IP used to access the Virtual Machine.')
 @allowed([
@@ -72,10 +75,10 @@ param vmSize string
 param storageAccountType string
 
 @description('Name of the virtual machine.')
-param vmName string = 'vm-${systemCode}'
+param vmName string = 'vm-${systemCode}-${env}'
 
 @description('Name of the network interface.')
-var nicName = 'nic-${systemCode}'
+var nicName = 'nic-${systemCode}-${env}'
 
 @description('Id of subnet.')
 param snetId string

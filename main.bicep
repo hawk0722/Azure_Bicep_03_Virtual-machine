@@ -1,13 +1,14 @@
 targetScope = 'subscription'
 
 // Parameters for common
-param systemCode string = 'hawk'
 param location string = 'japaneast'
+param systemCode string = 'hawk'
+param env string = 'dev'
 param frontend string = 'frontend'
 param backend string = 'backend'
 
 // Parameters for resorce group
-param resourceGroupName string = 'rg-${systemCode}'
+param resourceGroupName string = 'rg-${systemCode}-${env}'
 
 // Parameters for virtual machine
 param adminUsername string = 'azureuser'
@@ -40,6 +41,7 @@ module vnetModule 'modules/vnet.bicep' = {
   params: {
     location: location
     systemCode: systemCode
+    env: env
     vnetAddressPrefix: vnetAddressPrefix
     snetFrontendName: snetFrontendName
     snetFrontendPrefix: snetFrontendPrefix
@@ -57,6 +59,7 @@ module nsgModule 'modules/nsg.bicep' = {
   params: {
     location: location
     systemCode: systemCode
+    env: env
     frontend: frontend
     backend: backend
   }
@@ -69,6 +72,7 @@ module vmModule 'modules/vm.bicep' = {
   params: {
     location: location
     systemCode: systemCode
+    env: env
     adminUsername: adminUsername
     publicIPAllocationMethod: publicIPAllocationMethod
     publicIpSku: publicIpSku

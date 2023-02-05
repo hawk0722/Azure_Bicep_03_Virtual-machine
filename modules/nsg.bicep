@@ -1,16 +1,19 @@
-@description('System code')
-param systemCode string
-
 @description('Location for all resources.')
 param location string
 
+@description('System code')
+param systemCode string
+
+@description('Environment')
+param env string
+
 @description('Name of the network security group.')
 param frontend string
-param nsgFrontendName string = 'nsg-${systemCode}-${frontend}'
+param nsgFrontendName string = 'nsg-${systemCode}-${env}-${frontend}'
 
 @description('Name of the network security group.')
 param backend string
-param nsgBackendName string = 'nsg-${systemCode}-${backend}'
+param nsgBackendName string = 'nsg-${systemCode}-${env}-${backend}'
 
 // network security group of frontend subnet.
 resource nsgfrontend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
@@ -19,15 +22,15 @@ resource nsgfrontend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
   properties: {
     securityRules: [
       {
-        name: 'default-allow-3389'
+        name: 'AllowRDPInbound'
         properties: {
           priority: 100
           access: 'Allow'
           direction: 'Inbound'
-          destinationPortRange: '3389'
           protocol: 'Tcp'
           sourcePortRange: '*'
           sourceAddressPrefix: '*'
+          destinationPortRange: '3389'
           destinationAddressPrefix: '*'
         }
       }
@@ -47,15 +50,11 @@ resource nsgbackend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
           priority: 100
           access: 'Allow'
           direction: 'Inbound'
-          destinationPortRange: '*'
           protocol: '*'
           sourcePortRange: '*'
           sourceAddressPrefix: '10.0.1.0/24'
+          destinationPortRange: '*'
           destinationAddressPrefix: '*'
-          sourcePortRanges: []
-          destinationPortRanges: []
-          sourceAddressPrefixes: []
-          destinationAddressPrefixes: []
         }
       }
       {
@@ -64,15 +63,11 @@ resource nsgbackend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
           priority: 110
           access: 'Allow'
           direction: 'Inbound'
-          destinationPortRange: '*'
           protocol: '*'
           sourcePortRange: '*'
           sourceAddressPrefix: 'AzureLoadBalancer'
+          destinationPortRange: '*'
           destinationAddressPrefix: '*'
-          sourcePortRanges: []
-          destinationPortRanges: []
-          sourceAddressPrefixes: []
-          destinationAddressPrefixes: []
         }
       }
       {
@@ -81,15 +76,11 @@ resource nsgbackend 'Microsoft.Network/networkSecurityGroups@2022-07-01' = {
           priority: 1000
           access: 'Deny'
           direction: 'Inbound'
-          destinationPortRange: '*'
           protocol: '*'
           sourcePortRange: '*'
           sourceAddressPrefix: '*'
+          destinationPortRange: '*'
           destinationAddressPrefix: '*'
-          sourcePortRanges: []
-          destinationPortRanges: []
-          sourceAddressPrefixes: []
-          destinationAddressPrefixes: []
         }
       }
     ]
